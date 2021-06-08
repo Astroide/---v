@@ -116,7 +116,7 @@ If that argument is passed, all instructions will be printed when executed and p
 * `«       ` goto y = top of stack x = second element of stack and set instruction pointer to default
 * `»       ` run file - run file [third element of stack] with pointer starting at y [top of stack] x [second element of stack]
 * `?       ` swap top two elements of stack
-* `` `     `` print newline
+* ``       ` print newline
 * `#       ` push random number between 0 and [top of stack] to stack
 * `°       ` wait for 0.1 second
 * `@       ` instruction pointer will start here
@@ -135,3 +135,4 @@ If that argument is passed, all instructions will be printed when executed and p
 * `∞       ` turtle - set right arrow handler to (GOTO y [top of stack] x [second element of stack] ; reset instruction pointer direction to default)
 * `∆       ` turtle - raise or lower pen (toggle state)
 * `π       ` turtle - reset screen and position
+* `¶       ` turtle - update screen (push updates to screen)
