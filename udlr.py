@@ -289,6 +289,9 @@ with open(filename, mode='r') as file:
                     turtle.penup()
                 else:
                     turtle.pendown()
+            elif instruction == 'π':
+                turtle.clearscreen()
+                turtle.reset()
         pointer_position[0] += pointer_direction[0]
         pointer_position[1] += pointer_direction[1]
         if (pointer_position[0] >= len(content) or pointer_position[0] < 0 or pointer_position[1] >= len(content[pointer_position[0]]) or pointer_position[1] < 0):
@@ -359,3 +362,4 @@ with open(filename, mode='r') as file:
 # €       || turtle - set left arrow handler to (GOTO y [top of stack] x [second element of stack] ; reset instruction pointer direction to default)
 # ∞       || turtle - set right arrow handler to (GOTO y [top of stack] x [second element of stack] ; reset instruction pointer direction to default)
 # ∆       || turtle - raise or lower pen (toggle state)
+# π       || turtle - reset screen and position
