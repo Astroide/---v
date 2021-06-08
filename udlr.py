@@ -227,7 +227,7 @@ with open(filename, mode='r') as file:
             elif instruction == 'ª':
                 turtle.right(stack[-1])
             elif instruction == 'œ':
-                turtle.speed(stack[-1])
+                turtle.tracer(0, 0)
             elif instruction == '#':
                 stack.append(random.randint(0, stack[-1]))
             elif instruction == '√':
@@ -302,7 +302,7 @@ with open(filename, mode='r') as file:
         else:
             def function():
                 main_op()
-                turtle.ontimer(function, 10)
+                turtle.ontimer(function, 1)
             turtle.ontimer(function, 10)
             turtle.mainloop()
             break
@@ -363,3 +363,4 @@ with open(filename, mode='r') as file:
 # ∞       || turtle - set right arrow handler to (GOTO y [top of stack] x [second element of stack] ; reset instruction pointer direction to default)
 # ∆       || turtle - raise or lower pen (toggle state)
 # π       || turtle - reset screen and position
+# ¶       || turtle - update screen (push updates to screen)
