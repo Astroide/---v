@@ -66,10 +66,10 @@ This example allows the user to control the turtle via the arrow keys (`movement
 1∑0 3¡_4€_5£_6∞¢v
             v<  <
             >^
-5∑          ^
-0 10-æ      ^
-5ß          ^
-0 10-ª      ^
+5∑          ¶^
+0 10-æ      ¶^
+5ß          ¶^
+0 10-ª      ¶^
 ```
 
 ## Interpreter usage
