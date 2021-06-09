@@ -122,13 +122,15 @@ If that argument is passed, all instructions will be printed when executed and p
 * `#       ` push random number between 0 and [top of stack] to stack
 * `°       ` wait for 0.1 second
 * `@       ` instruction pointer will start here
+* `√       ` set top of stack to square root of top of stack
+* `◊       ` set top of stack to [second element of stack]-th root of top of stack
 * `ù       ` special variable ; if set, the `,` and `.` commands will use its value as prompt
 * `∑       ` turtle - forward by [top of stack]
 * `ß       ` turtle - backward by [top of stack]
 * `æ       ` turtle - turn left [top of stack] degrees
 * `ª       ` turtle - turn right [top of stack] degrees
 * `œ       ` turtle - set speed to [top of stack]
-* `√       ` turtle - set window title to [top of stack]
+* `µ       ` turtle - set window title to [top of stack]
 * `ƒ       ` turtle - toggle turtle visibility
 * `¢       ` turtle - listen to events and set handlers for arrow keys
 * `¡       ` (inverted !) turtle - set up arrow handler to (GOTO y [top of stack] x [second element of stack] ; reset instruction pointer direction to default)
