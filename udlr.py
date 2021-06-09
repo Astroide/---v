@@ -142,7 +142,7 @@ with open(filename, mode='r') as file:
             elif instruction == '◊':
                 stack[-1] = pow(stack[-1], stack[-2])
             elif instruction == '/':
-                stack[-1] *= stack[-2]
+                stack[-1] /= stack[-2]
             elif instruction == '+':
                 stack[-1] += stack[-2]
             elif instruction == '$':
