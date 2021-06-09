@@ -7,6 +7,7 @@ There is an integrated (very basic) turtle support. Supported commands are forwa
 
 When using turtle with event handling, you should (after executing program tasks and at the end of event handlers) send the program into an infinite loop to prevent it from exiting.
 
+
 Number and strings can be written in *any* of the four directions. For example, the string `sometext` can be written this way :
 ```
 "
@@ -21,6 +22,7 @@ t
 "
 ```
 and it will be interpreted correctly (as "sometext") only if the instruction pointer comes from the bottom and goes up.
+## Warning : key event handlers support is not always working.
 
 ## Examples
 
