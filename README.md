@@ -118,12 +118,19 @@ If that argument is passed, all instructions will be printed when executed and p
 * `«       ` goto y = top of stack x = second element of stack and set instruction pointer to default
 * `»       ` run file - run file [third element of stack] with pointer starting at y [top of stack] x [second element of stack]
 * `?       ` swap top two elements of stack
-* ``       ` print newline
+* `` `       `` print newline
 * `#       ` push random number between 0 and [top of stack] to stack
 * `°       ` wait for 0.1 second
 * `@       ` instruction pointer will start here
 * `√       ` set top of stack to square root of top of stack
 * `◊       ` set top of stack to [second element of stack]-th root of top of stack
+* `†       ` set top of stack to [top of stack]^2 (shortcut for adding `2?^` or having 2 already on the stack and calling `^`)
+* `…       ` convert top of stack to number
+* `‹       ` same as `{`
+* `›       ` same as `}`
+* `≥       ` same as `]`
+* `≤       ` same as `[`
+* `⁄       ` integer division (top of stack `//` second element of stack)
 * `ù       ` special variable ; if set, the `,` and `.` commands will use its value as prompt
 * `∑       ` turtle - forward by [top of stack]
 * `ß       ` turtle - backward by [top of stack]

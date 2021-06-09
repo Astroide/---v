@@ -11,7 +11,6 @@ with open('README.md', mode='w') as file:
             if(len(line) == 0):
                 continue
             line = line[2:]
-            if line.startswith('>') or line.startswith('#'):
-                pass
-            line = f'`{line[:line.index("||")]}`{line[line.index("||")+2:]}'
+            part1 = line[:line.index("||")]
+            line = f'`{part1 if not part1.startswith("`") else "` " + part1 + "`"}`{line[line.index("||")+2:]}'
             file.write(f'* {line}\n')
