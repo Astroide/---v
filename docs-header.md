@@ -39,6 +39,11 @@ The instruction pointer has a direction, which is by default left to right. It c
 
 ## Examples
 
+#### Hello World
+```
+"Hello World!";
+```
+
 #### Infinite loop
 ```
 >v
