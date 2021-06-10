@@ -241,6 +241,20 @@ with open(filename, mode='r') as file:
                 turtle.tracer(0, 0)
             elif instruction == '#':
                 stack.append(random.randint(0, stack[-1]))
+            elif instruction == '§':
+                parts = stack[-1].split(stack[-2])
+                for part in parts:
+                    stack.append(part)
+                stack.append(len(parts))
+            elif instruction == '≈':
+                if type(stack[-1]) == float or type(stack[-1]) == int:
+                    stack.append(stack[-1])
+                elif type(stack[-1]) == str:
+                    stack.append(stack[-1][::])
+            elif instruction == '±':
+                stack[-1] = -stack[-1]
+            elif instruction == '¯':
+                stack.append(stack[-1][stack[-2]:stack[-3]])
             elif instruction == '√':
                 turtle.title(str(stack[-1]))
             elif instruction == 'ƒ':
@@ -369,6 +383,10 @@ with open(filename, mode='r') as file:
 # ≤       || same as `[`
 # ⁄       || integer division (top of stack `//` second element of stack)
 # ù       || special variable ; if set, the `,` and `.` commands will use its value as prompt
+# §       || push to stack all elements of top of stack.split(second element of stack) and push number of elements
+# ¯       || push to stack top element of stack.substring(second element of stack, third element of stack)
+# ±       || toggle sign of top of stack
+# ≈       || duplicate top of stack
 # ∑       || turtle - forward by [top of stack]
 # ß       || turtle - backward by [top of stack]
 # æ       || turtle - turn left [top of stack] degrees
