@@ -30,6 +30,11 @@ The instruction pointer has a direction, which is by default left to right. It c
 * `^` tells the pointer *go up*. It is ignored if the pointer is going down.
 * `v` tells the pointer *go down*. It is ignored if the pointer is going up.
 * `|` is a mirror. When reached, it inverts the pointer's direction.
+
+### Control statements (or something like that)
+* `=` is the equality operator. It only executes the character immediately after it if the top two elements of the stack ae equal.
+* `‹` and `›` (or `{` and `}`) work like `=`, but it tests instead first element of the stack `‹` | `›` second element of the stack.
+* `≤` and `≥` (or `[` and `]`) work like `‹` and `›`, but they test greater or equal or lesser or equal.
 ## Warning : key event handlers support is not always working.
 
 ## Examples
@@ -77,7 +82,7 @@ This example allows the user to control the turtle via the arrow keys (`movement
 First, make `udlr.py` executable :
 `chmod +x ./udlr.py`
 
-Then, you can use it this way : 
+Then, you can use it this way :
 `./udlr.py filename.udlr`
 
 On Windows (or if you do not want to `chmod +x` `udlr.py`) :
