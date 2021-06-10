@@ -1,0 +1,16 @@
+#input, #output, #code {
+    background-color: #eee;
+    border-radius: 0;
+    border: 2px solid darkgray;
+    outline: none;
+}
+
+#output {
+    width: 400px;
+    height: 300px;
+    overflow: scroll;
+}
+
+* {
+    font-family: 'Courier New', Courier, monospace;
+}
