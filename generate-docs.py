@@ -7,10 +7,13 @@ with open('README.md', mode='w') as file:
         lines = udlr.read().split('\n')
         index = lines.index('# DOCUMENTATION #')
         lines = lines[index+1:]
+        file.write('\n| Command | Description |\n| --- | --- |\n')
         for line in lines:
             if(len(line) == 0):
                 continue
             line = line[2:]
             part1 = line[:line.index("||")]
-            line = f'`{part1 if not part1.startswith("`") else "` " + part1 + "`"}`{line[line.index("||")+2:]}'
-            file.write(f'* {line}\n')
+            if part1.startswith('|'):
+                part1 = f'\\{part1}'
+            line = f'| `{(part1 if not part1.startswith("`") else "` " + part1 + "`")}` | {line[line.index("||")+2:]} |'
+            file.write(f'{line}\n')

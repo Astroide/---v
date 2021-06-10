@@ -90,68 +90,71 @@ If that argument is passed, all instructions will be printed when executed and p
 ---
 ## Commands
 
-* `>       ` instruction pointer right
-* `<       ` instruction pointer left
-* `v       ` instruction pointer down
-* `^       ` instruction pointer up
-* `|       ` mirror - reverse instruction pointer
-* `!       ` exit
-* `<num>   ` push num to the stack
-* `;       ` print top of the stack
-* `&       ` print stack
-* `,       ` input number and push to the stack
-* `.       ` input string and push to the stack
-* `*       ` multiply top element of the stack by second-top element of the stack
-* `/       ` divide top element of the stack by second-top element of the stack
-* `+       ` add top element of the stack to second-top element of the stack
-* `-       ` substract second-top element of the stack to top element of the stack
-* `%       ` modulo - set top of stack to [top of stack] % [second-top element of the stack]
-* `=       ` if equal - skip next instruction if top two elements of the stack are not equal
-* `:       ` if not equal skip next instruction if top two elements of the stack are equal
-* `}       ` skip next instruction if top element of the stack is greater than second-top element of the stack
-* `{       ` skip next instruction if top element of the stack is smaller than second-top element of the stack
-* `]       ` skip next instruction if top element of the stack is greater or equal to the second-top element of the stack
-* `[       ` skip next instruction if top element of the stack is smaller or equal to the second-top element of the stack
-* `_       ` pop stack
-* `<chr>   ` pop stack and write to slot chr
-* `<CHR>   ` push slot chr to stack
-* `\       ` print ASCII char corresponding to top of stack
-* `~       ` print top of stack without newline
-* `¬       ` print variables
-* `"<STR>" ` push string to stack
-* `)       ` increment top of stack
-* `(       ` decrement top of stack
-* `~       ` print top of stack without newline
-* `V       ` throw error
-* `«       ` goto y = top of stack x = second element of stack and set instruction pointer to default
-* `»       ` run file - run file [third element of stack] with pointer starting at y [top of stack] x [second element of stack]
-* `?       ` swap top two elements of stack
-* `` `       `` print newline
-* `#       ` push random number between 0 and [top of stack] to stack
-* `°       ` wait for 0.1 second
-* `@       ` instruction pointer will start here
-* `√       ` set top of stack to square root of top of stack
-* `◊       ` set top of stack to [second element of stack]-th root of top of stack
-* `†       ` set top of stack to [top of stack]^2 (shortcut for adding `2?^` or having 2 already on the stack and calling `^`)
-* `…       ` convert top of stack to number
-* `‹       ` same as `{`
-* `›       ` same as `}`
-* `≥       ` same as `]`
-* `≤       ` same as `[`
-* `⁄       ` integer division (top of stack `//` second element of stack)
-* `ù       ` special variable ; if set, the `,` and `.` commands will use its value as prompt
-* `∑       ` turtle - forward by [top of stack]
-* `ß       ` turtle - backward by [top of stack]
-* `æ       ` turtle - turn left [top of stack] degrees
-* `ª       ` turtle - turn right [top of stack] degrees
-* `œ       ` turtle - set speed to [top of stack]
-* `µ       ` turtle - set window title to [top of stack]
-* `ƒ       ` turtle - toggle turtle visibility
-* `¢       ` turtle - listen to events and set handlers for arrow keys
-* `¡       ` (inverted !) turtle - set up arrow handler to (GOTO y [top of stack] x [second element of stack] ; reset instruction pointer direction to default)
-* `£       ` turtle - set down arrow handler to (GOTO y [top of stack] x [second element of stack] ; reset instruction pointer direction to default)
-* `€       ` turtle - set left arrow handler to (GOTO y [top of stack] x [second element of stack] ; reset instruction pointer direction to default)
-* `∞       ` turtle - set right arrow handler to (GOTO y [top of stack] x [second element of stack] ; reset instruction pointer direction to default)
-* `∆       ` turtle - raise or lower pen (toggle state)
-* `π       ` turtle - reset screen and position
-* `¶       ` turtle - update screen (push updates to screen)
+
+| Command | Description |
+| --- | --- |
+| `>       ` |  instruction pointer right |
+| `<       ` |  instruction pointer left |
+| `v       ` |  instruction pointer down |
+| `^       ` |  instruction pointer up |
+| `\|       ` |  mirror - reverse instruction pointer |
+| `!       ` |  exit |
+| `<num>   ` |  push num to the stack |
+| `;       ` |  print top of the stack |
+| `&       ` |  print stack |
+| `,       ` |  input number and push to the stack |
+| `.       ` |  input string and push to the stack |
+| `*       ` |  multiply top element of the stack by second-top element of the stack |
+| `/       ` |  divide top element of the stack by second-top element of the stack |
+| `+       ` |  add top element of the stack to second-top element of the stack |
+| `-       ` |  substract second-top element of the stack to top element of the stack |
+| `%       ` |  modulo - set top of stack to [top of stack] % [second-top element of the stack] |
+| `=       ` |  if equal - skip next instruction if top two elements of the stack are not equal |
+| `:       ` |  if not equal skip next instruction if top two elements of the stack are equal |
+| `}       ` |  skip next instruction if top element of the stack is greater than second-top element of the stack |
+| `{       ` |  skip next instruction if top element of the stack is smaller than second-top element of the stack |
+| `]       ` |  skip next instruction if top element of the stack is greater or equal to the second-top element of the stack |
+| `[       ` |  skip next instruction if top element of the stack is smaller or equal to the second-top element of the stack |
+| `_       ` |  pop stack |
+| `<chr>   ` |  pop stack and write to slot chr |
+| `<CHR>   ` |  push slot chr to stack |
+| `\       ` |  print ASCII char corresponding to top of stack |
+| `~       ` |  print top of stack without newline |
+| `¬       ` |  print variables |
+| `"<STR>" ` |  push string to stack |
+| `)       ` |  increment top of stack |
+| `(       ` |  decrement top of stack |
+| `~       ` |  print top of stack without newline |
+| `V       ` |  throw error |
+| `«       ` |  goto y = top of stack x = second element of stack and set instruction pointer to default |
+| `»       ` |  run file - run file [third element of stack] with pointer starting at y [top of stack] x [second element of stack] |
+| `?       ` |  swap top two elements of stack |
+| `` `       `` |  print newline |
+| `#       ` |  push random number between 0 and [top of stack] to stack |
+| `°       ` |  wait for 0.1 second |
+| `@       ` |  instruction pointer will start here |
+| `√       ` |  set top of stack to square root of top of stack |
+| `◊       ` |  set top of stack to [second element of stack]-th root of top of stack |
+| `†       ` |  set top of stack to [top of stack]^2 (shortcut for adding `2?^` or having 2 already on the stack and calling `^`) |
+| `…       ` |  convert top of stack to number |
+| `‹       ` |  same as `{` |
+| `›       ` |  same as `}` |
+| `≥       ` |  same as `]` |
+| `≤       ` |  same as `[` |
+| `⁄       ` |  integer division (top of stack `//` second element of stack) |
+| `ù       ` |  special variable ; if set, the `,` and `.` commands will use its value as prompt |
+| `∑       ` |  turtle - forward by [top of stack] |
+| `ß       ` |  turtle - backward by [top of stack] |
+| `æ       ` |  turtle - turn left [top of stack] degrees |
+| `ª       ` |  turtle - turn right [top of stack] degrees |
+| `œ       ` |  turtle - set speed to [top of stack] |
+| `µ       ` |  turtle - set window title to [top of stack] |
+| `ƒ       ` |  turtle - toggle turtle visibility |
+| `¢       ` |  turtle - listen to events and set handlers for arrow keys |
+| `¡       ` |  (inverted !) turtle - set up arrow handler to (GOTO y [top of stack] x [second element of stack] ; reset instruction pointer direction to default) |
+| `£       ` |  turtle - set down arrow handler to (GOTO y [top of stack] x [second element of stack] ; reset instruction pointer direction to default) |
+| `€       ` |  turtle - set left arrow handler to (GOTO y [top of stack] x [second element of stack] ; reset instruction pointer direction to default) |
+| `∞       ` |  turtle - set right arrow handler to (GOTO y [top of stack] x [second element of stack] ; reset instruction pointer direction to default) |
+| `∆       ` |  turtle - raise or lower pen (toggle state) |
+| `π       ` |  turtle - reset screen and position |
+| `¶       ` |  turtle - update screen (push updates to screen) |
