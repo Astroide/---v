@@ -35,6 +35,14 @@ The instruction pointer has a direction, which is by default left to right. It c
 * `=` is the equality operator. It only executes the character immediately after it if the top two elements of the stack ae equal.
 * `‹` and `›` (or `{` and `}`) work like `=`, but it tests instead first element of the stack `‹` | `›` second element of the stack.
 * `≤` and `≥` (or `[` and `]`) work like `‹` and `›`, but they test greater or equal or lesser or equal.
+
+### Operators
+
+* `*` sets the top of the stack to the top of the stack * second element of the stack
+* `+` sets the top of the stack to the top of the stack + second element of the stack
+* `-` sets the top of the stack to the top of the stack - second element of the stack
+* `/` sets the top of the stack to the top of the stack / second element of the stack
+* `⁄` sets the top of the stack rounded result of to the top of the stack / second element of the stack
 ## Warning : key event handlers support is not always working.
 
 ## Examples
