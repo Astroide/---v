@@ -7,6 +7,9 @@ There is an integrated (very basic) turtle support. Supported commands are forwa
 
 When using turtle with event handling, you should (after executing program tasks and at the end of event handlers) send the program into an infinite loop to prevent it from exiting.
 
+## Running Online
+
+If you want to run a <>^v program online, use (this)[https://v.astroide.repl.co/] tool to run code on a remote server.
 ## Basics
 
 The language is stack-based. The stack can grow very large (up to the Python implementation's maximum array length). There is also variable space, where you can store values in a way that will not be modified when pushing new values to the stack. Any character that is considered a letter except `v` (including letters with diacritics) can be used as variable name.
