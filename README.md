@@ -169,6 +169,8 @@ If that argument is passed, all instructions will be printed when executed and p
 | `±       ` |  toggle sign of top of stack |
 | `≈       ` |  duplicate top of stack |
 | `Ω       ` |  fetch url [top of stack] ; push page contents |
+| `‡       ` |  top of stack = str(top of stack) |
+| `¥       ` |  remove second element of stack, shortcut for `?_` |
 | `•       ` |  push index of [top of stack] in [second element of stack] |
 | `¿       ` |  push length of top of stack |
 | `∑       ` |  turtle - forward by [top of stack] |

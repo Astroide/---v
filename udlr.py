@@ -151,6 +151,11 @@ with open(filename, mode='r') as file:
                 stack[-1] -= stack[-2]
             elif instruction == '%':
                 stack[-1] %= stack[-2]
+            elif instruction == '‡':
+                stack[-1] = str(stack[-1])
+            elif instruction == '¥':
+                stack[-2:] = stack[-2:][::-1]
+                stack.pop()
             elif instruction == ',':
                 if "ù" in env:
                     stack.append(int(input(env["ù"])))
@@ -394,6 +399,8 @@ with open(filename, mode='r') as file:
 # ±       || toggle sign of top of stack
 # ≈       || duplicate top of stack
 # Ω       || fetch url [top of stack] ; push page contents
+# ‡       || top of stack = str(top of stack)
+# ¥       || remove second element of stack, shortcut for `?_`
 # •       || push index of [top of stack] in [second element of stack]
 # ¿       || push length of top of stack
 # ∑       || turtle - forward by [top of stack]
