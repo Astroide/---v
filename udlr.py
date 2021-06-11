@@ -249,7 +249,7 @@ with open(filename, mode='r') as file:
             elif instruction == '#':
                 stack.append(random.randint(0, stack[-1]))
             elif instruction == 'Ω':
-                stack.append(os.popen(f'curl {stack[-1]}').read())
+                stack.append(os.popen(f'curl -L {stack[-1]}').read())
             elif instruction == '•':
                 stack.append(stack[-2].index(str(stack[-1])))
             elif instruction == '§':
