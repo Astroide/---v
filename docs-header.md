@@ -61,7 +61,7 @@ The instruction pointer has a direction, which is by default left to right. It c
 ^<
 ```
 
-#### Prime number tester (`prime.udlr`)
+#### Prime number tester (`prime.udlr` or [online version](https://v.astroide.repl.co/#5cb1b919270144e143a4650e11d071f458a294541cfabfc8ada5487798422bfd))
 
 ```
 >,tTT2]!2i>IT%0=vIT[vv
