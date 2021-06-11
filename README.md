@@ -165,9 +165,11 @@ If that argument is passed, all instructions will be printed when executed and p
 | `⁄       ` |  integer division (top of stack `//` second element of stack) |
 | `ù       ` |  special variable ; if set, the `,` and `.` commands will use its value as prompt |
 | `§       ` |  push to stack all elements of top of stack.split(second element of stack) and push number of elements |
-| `¯       ` |  push to stack top element of stack.substring(second element of stack, third element of stack) |
+| `¯       ` |  push to stack (top element of stack).substring(second element of stack, third element of stack) |
 | `±       ` |  toggle sign of top of stack |
 | `≈       ` |  duplicate top of stack |
+| `Ω       ` |  fetch url [top of stack] ; push page contents |
+| `•       ` |  push index of [top of stack] in [second element of stack] |
 | `∑       ` |  turtle - forward by [top of stack] |
 | `ß       ` |  turtle - backward by [top of stack] |
 | `æ       ` |  turtle - turn left [top of stack] degrees |
