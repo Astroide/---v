@@ -62,6 +62,9 @@ wsServer.on('connection', socket => {
                 childProcess.stdout.on('data', data => {
                     socket.send(JSON.stringify({ "type": "data", "content": data.toString('utf8') }))
                 });
+                childProcess.stderr.on('data', data => {
+                    socket.send(JSON.stringify({ "type": "stderr", "content": data.toString('utf8') }))
+                });
                 childProcess.on('exit', () => {
                     childProcess.didExit = true;
                     socket.send(JSON.stringify({ "type": childProcess.didExitByTimeout ? "timeout" : "end", "time": Date.now() - startTime }));

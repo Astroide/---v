@@ -70,6 +70,8 @@ function run() {
             output.innerHTML += "<strong>Script was killed because it ran for more than 60s.</strong>";
         } else if (data.type == "data") {
             output.innerText += data.content;
+        } else if (data.type == "stderr") {
+            output.innerHTML += `<span style="color:red;">${data.content}</span>`;
         } else {
             console.log(data);
         }
