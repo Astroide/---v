@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "@replit/database": "^2.0.1",
-    "ws": "^7.4.6"
+    "ws": "^7.4.6",
+    "express": "^4.17.1"
   }
 }
