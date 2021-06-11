@@ -254,7 +254,7 @@ with open(filename, mode='r') as file:
                 stack.append(stack[-2].index(str(stack[-1])))
             elif instruction == '§':
                 parts = []
-                if stack[-1] == '':
+                if stack[-2] == '':
                     parts = list(stack[-1])
                 else:
                     parts = stack[-1].split(stack[-2])
