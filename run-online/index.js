@@ -48,6 +48,7 @@ wsServer.on('connection', socket => {
         writeFile(inputFilePath, input, () => {
             writeFile(filePath, content, () => {
                 console.log(filePath);
+                const startTime = Date.now();
                 const childProcess = exec(`cat ${inputFilePath} | python3 ${dirname(__dirname)}/udlr.py ${filePath}`, { shell: true });
                 socket.send(JSON.stringify({ "type": "ok" }));
                 socket.on('close', () => {
@@ -63,7 +64,7 @@ wsServer.on('connection', socket => {
                 });
                 childProcess.on('exit', () => {
                     childProcess.didExit = true;
-                    socket.send(JSON.stringify({ "type": childProcess.didExitByTimeout ? "timeout" : "end" }));
+                    socket.send(JSON.stringify({ "type": childProcess.didExitByTimeout ? "timeout" : "end", "time": Date.now() - startTime }));
                     unlink(filePath, () => {
                         console.log(`destroyed temporary file ${filename}`);
                     });

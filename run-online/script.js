@@ -64,7 +64,7 @@ function run() {
             status.innerText = `[${Date.now()}] Running...`;
         } else if (data.type == "end") {
             status.innerText = `[${Date.now()}] Done running`;
-            output.innerHTML += "<strong>Script is done</strong>";
+            output.innerHTML += `<strong>Script is done [${data.time}ms Server Time]</strong>`;
         } else if (data.type == "timeout") {
             status.innerText = `[${Date.now()}] Done running`;
             output.innerHTML += "<strong>Script was killed because it ran for more than 60s.</strong>";
