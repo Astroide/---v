@@ -261,6 +261,8 @@ with open(filename, mode='r') as file:
                 for part in parts:
                     stack.append(part)
                 stack.append(len(parts))
+            elif instruction == '—':
+                stack[-1] = stack[-1][::-1]
             elif instruction == '≈':
                 if type(stack[-1]) == float or type(stack[-1]) == int:
                     stack.append(stack[-1])
@@ -407,6 +409,7 @@ with open(filename, mode='r') as file:
 # ¥       || remove second element of stack, shortcut for `?_`
 # •       || push index of [top of stack] in [second element of stack]
 # ¿       || push length of top of stack
+# –       || (not a minus) string reverse - reverse top of stack
 # ∑       || turtle - forward by [top of stack]
 # ß       || turtle - backward by [top of stack]
 # æ       || turtle - turn left [top of stack] degrees
