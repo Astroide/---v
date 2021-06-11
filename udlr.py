@@ -207,6 +207,8 @@ with open(filename, mode='r') as file:
                 print(stack)
             elif instruction == '¬':
                 print(env)
+            elif instruction == '¿':
+                print(len(stack[-1]))
             elif instruction == '\\':
                 if debug:
                     print('PRINT ', chr(stack[-1]), end="")
@@ -393,6 +395,7 @@ with open(filename, mode='r') as file:
 # ≈       || duplicate top of stack
 # Ω       || fetch url [top of stack] ; push page contents
 # •       || push index of [top of stack] in [second element of stack]
+# ¿       || push length of top of stack
 # ∑       || turtle - forward by [top of stack]
 # ß       || turtle - backward by [top of stack]
 # æ       || turtle - turn left [top of stack] degrees

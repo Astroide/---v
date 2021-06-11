@@ -170,6 +170,7 @@ If that argument is passed, all instructions will be printed when executed and p
 | `≈       ` |  duplicate top of stack |
 | `Ω       ` |  fetch url [top of stack] ; push page contents |
 | `•       ` |  push index of [top of stack] in [second element of stack] |
+| `¿       ` |  push length of top of stack |
 | `∑       ` |  turtle - forward by [top of stack] |
 | `ß       ` |  turtle - backward by [top of stack] |
 | `æ       ` |  turtle - turn left [top of stack] degrees |
