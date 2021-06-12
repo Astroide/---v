@@ -174,6 +174,7 @@ If that argument is passed, all instructions will be printed when executed and p
 | `•       ` |  push index of [top of stack] in [second element of stack] |
 | `¿       ` |  push length of top of stack |
 | `–       ` |  (not a minus) string reverse - reverse top of stack |
+| `®       ` |  set top of stack to (get character (top of stack) of [second element of stack]) |
 | `∑       ` |  turtle - forward by [top of stack] |
 | `ß       ` |  turtle - backward by [top of stack] |
 | `æ       ` |  turtle - turn left [top of stack] degrees |

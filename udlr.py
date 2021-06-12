@@ -224,6 +224,8 @@ with open(filename, mode='r') as file:
                     f"python3 {str(os.path.abspath(__file__))} {stack[-3]} --xy={stack[-1]},{stack[-2]}").read()
             elif instruction == '«':
                 pointer_position = [stack[-1], stack[-2]]
+            elif instruction == '®':
+                stack[-1] = stack[-2][stack[-1]]
             elif instruction == '"':
                 text = ""
                 while True:
@@ -410,6 +412,7 @@ with open(filename, mode='r') as file:
 # •       || push index of [top of stack] in [second element of stack]
 # ¿       || push length of top of stack
 # –       || (not a minus) string reverse - reverse top of stack
+# ®       || set top of stack to (get character (top of stack) of [second element of stack])
 # ∑       || turtle - forward by [top of stack]
 # ß       || turtle - backward by [top of stack]
 # æ       || turtle - turn left [top of stack] degrees
