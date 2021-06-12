@@ -213,7 +213,7 @@ with open(filename, mode='r') as file:
             elif instruction == '¬':
                 print(env)
             elif instruction == '¿':
-                print(len(stack[-1]))
+                stack.append(len(stack[-1]))
             elif instruction == '\\':
                 if debug:
                     print('PRINT ', chr(stack[-1]), end="")
