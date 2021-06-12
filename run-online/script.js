@@ -83,3 +83,6 @@ function run() {
         }));
     });
 }
+if(location.search.startsWith('?i=')) {
+    input.value = atob(location.search.slice(3));
+}
