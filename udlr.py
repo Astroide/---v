@@ -203,7 +203,7 @@ with open(filename, mode='r') as file:
                     pointer_position[0] += pointer_direction[0]
                     pointer_position[1] += pointer_direction[1]
             elif instruction == '…':
-                stack[-1] = int(stack[-1])
+                stack[-1] = float(stack[-1])
             elif instruction == '?':
                 stack[-2:] = stack[-2:][::-1]
             elif instruction == '_':
