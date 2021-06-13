@@ -411,7 +411,7 @@ with open(filename, mode='r') as file:
 # ¥       || remove second element of stack, shortcut for `?_`
 # •       || push index of [top of stack] in [second element of stack]
 # ¿       || push length of top of stack
-# –       || (not a minus) string reverse - reverse top of stack
+# —       || (not a minus) string reverse - reverse top of stack
 # ®       || set top of stack to (get character (top of stack) of [second element of stack])
 # ∑       || turtle - forward by [top of stack]
 # ß       || turtle - backward by [top of stack]
