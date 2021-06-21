@@ -87,7 +87,11 @@ with open(filename, mode='r') as file:
                 break
             elif instruction.isalpha() and not instruction == 'v' and ord(instruction) < ord('z') + 1:
                 if instruction.islower():
-                    env[instruction] = stack.pop()
+                    if len(stack) > 1:
+                        env[instruction] = stack.pop()
+                    else:
+                        env[instruction] = stack[0]
+                        stack[0] = 0
                 if instruction.isupper():
                     stack.append(env[instruction.lower()])
                 break
