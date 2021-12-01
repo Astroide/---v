@@ -1,6 +1,8 @@
 # <>^v
 <>^v is a stack-based language that allows moving the instruction pointer in two dimensions. All commands except strings and numbers are one character long so that the program can easily be written to work in multiple directions.
 
+> Version 2 (with thread and functions) is currently in development.
+
 The instruction pointer by default starts at (0, 0) and goes towards the right. However, you can change its starting position by using the `@` character. The **last** `@` (left-to-right, then up-to-down, like reading direction) will be used to specify pointer position if there are more than one. The program is halted when the instruction pointer gets to the end of a line or column or when it encounters a `!`.
 
 There is an integrated (very basic) turtle support. Supported commands are forward, backward, turn left, turn right, set speed, toggle turtle visibility, set window title, toggle pen (up / down) and handling of keyboard arrows via GOTOs.
