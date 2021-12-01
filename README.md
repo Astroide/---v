@@ -104,9 +104,11 @@ Then, you can use it this way :
 On Windows (or if you do not want to `chmod +x` `udlr.py`) :
 `python3 ./udlr.py filename.udlr`
 
-An optional `--debug` argument can be passed to the interpreter *after* the file name.
-`./udlr.py filename.udlr --debug`
-If that argument is passed, all instructions will be printed when executed and prints to standard output will be prefixed by `PRINT `.
+An optional `--debug` argument can be passed to the interpreter *after* the file name.  
+```bash
+./udlr.py filename.udlr --debug
+```  
+If that argument is passed, all instructions will be printed when executed and prints to standard output will be prefixed by `PRINT `.  
 
 ---
 ## Commands
