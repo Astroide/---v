@@ -1,36 +1,3 @@
-const transpose = array => array[0].map((_, colIndex) => array.map(row => row[colIndex]));
-function fixCode(code) {
-    console.log(code);
-    let maxLength = 0;
-    for (let i = 0; i < code.length; i++) {
-        const line = code[i];
-        maxLength = Math.max(line.length, maxLength);
-    }
-    for (let i = 0; i < code.length; i++) {
-        while (code[i].length < maxLength) {
-            code[i].push(' ');
-        }
-    }
-    console.log(code);
-    return code;
-}
-/** @type {string[][]} */
-let code = fixCode(transpose(
-(
-`
->v>v>v
- dddd,
- aaaa
- tttt
- aaaa
-\`>^>^
-^    <
-`
-).slice(1).split('\n').map(x => x.split(''))
-));
-
-const controlCharacters = '<>^v';
-
 class Stack {
     constructor() {
         this.items = [];
@@ -53,13 +20,15 @@ class Stack {
         }).join(' ')}]`;
     }
 }
-
+let __ThreadID__ = 0;
 class Thread {
     /**
      * @param {number[]} ip
      * @param {string[][]} code
+     * @param {Runner} runner
      */
-    constructor(ip = [0, 0], code) {
+    constructor(ip = [0, 0], code, runner) {
+        this.id = __ThreadID__++;
         this.ip = ip;
         this.direction = [1, 0];
         this.code = code;
@@ -70,6 +39,8 @@ class Thread {
         this.isInLiteral = false;
         this.literal = '';
         this.backslash = false;
+        this.runner = runner;
+        this.history = [];
     }
 
     update() {
@@ -87,7 +58,11 @@ class Thread {
         if (this.ip[1] >= code[0].length) {
             this.ip[1] = 0;
         }
-        // console.log(this.code[this.ip[0]][this.ip[1]] + ' | ' + this.ip[0] + ', ' + this.ip[1] + ' | ' + this.direction[0] + ', ' + this.direction[1] + ' | ' + this.stack.toString());
+        this.history.unshift([this.ip[0], this.ip[1]]);
+        if (this.history.length > 80) {
+            this.history.pop();
+        }
+        // console.log(this.runner.threads.indexOf(this) + ' | ' + this.code[this.ip[0]][this.ip[1]] + ' | ' + this.ip[0] + ', ' + this.ip[1] + ' | ' + this.direction[0] + ', ' + this.direction[1] + ' | ' + this.stack.toString());
         let c = this.code[this.ip[0]][this.ip[1]];
         if (this.backslash && this.currentLiteralType == "string") {
             if (c === '`') {
@@ -136,6 +111,10 @@ class Thread {
                         }
                     } else if (c === ',') {
                         console.log(this.stack.pop());
+                    } else if (c === 'F') {
+                        this.runner.threads.push(new Thread([this.ip[0], this.ip[1]], this.code, this.runner));
+                    } else if (c === 'K') {
+                        this.dead = true;
                     }
                 }
             }
@@ -143,18 +122,20 @@ class Thread {
     }
 }
 
-function run() {
-    let threads = [new Thread([0, 0], code)];
-    setInterval(() => {
-        for (let i = 0; i < threads.length; i++) {
-            const thread = threads[i];
+class Runner {
+    constructor(code) {
+        this.code = code;
+        this.threads = [new Thread([-1, 0], this.code, this)];
+    }
+
+    runStep() {
+        for (let i = 0; i < this.threads.length; i++) {
+            const thread = this.threads[i];
             thread.update();
             if (thread.dead) {
-                threads.splice(i, 1);
+                this.threads.splice(i, 1);
                 i--;
             }
         }
-    }, 100);
+    }
 }
-
-run();
