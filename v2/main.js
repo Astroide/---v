@@ -43,12 +43,13 @@ addEventListener('click', e => {
         running = !running;
         if (running) {
             __ThreadID__ = 0;
-            runner = new Runner(fixCode(transpose(transpose(code).map(row => row.join('').trimEnd().split('')))));
+            runner = new Runner(transpose(fixCode(transpose(code).map(row => row.join('').trimEnd().split('')))));
+            console.log(runner.code);
         } else {
             __ThreadID__ = 0;
         }
     } else if (inRect(e.pageX, e.pageY, 21, 3, 18, 18)) {
-        alert(`${location.origin + location.pathname}?code=${encodeURIComponent(transpose(code).map(row => row.join('')).join('\n'))}&speed=${speed}`);
+        navigator.clipboard.writeText(`${location.origin + location.pathname}?code=${encodeURIComponent(transpose(code).map(row => row.join('')).join('\n'))}&speed=${speed}`);
     } else if (inRect(e.pageX, e.pageY, 21 + 18, 3, 18, 18)) {
         speed = Math.max(1, speed - 1);
     } else if (inRect(e.pageX, e.pageY, 21 + 36, 3, 18, 18)) {

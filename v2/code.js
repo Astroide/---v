@@ -47,43 +47,49 @@ class Thread {
     update() {
         this.ip[0] += this.direction[0];
         this.ip[1] += this.direction[1];
-        if (this.ip[0] < 0) {
-            if (this.last == 'L') {
-                this.ip[0] = this.code.length - 1;
-            } else {
-                this.dead = true;
-                return;
+        if (this.last.length !== 0) {
+            if (this.ip[0] < 0) {
+                if (this.last == 'L') {
+                    this.ip[0] = this.code.length - 1;
+                } else {
+                    console.log('DIE ' + this.ip + ' ' + this.code.length + ',' + this.code[0].length);
+                    this.dead = true;
+                    return;
+                }
             }
-        }
-        if (this.ip[0] >= this.code.length) {
-            if (this.last == 'L') {
-                this.ip[0] = 0;
-            } else {
-                this.dead = true;
-                return;
+            if (this.ip[0] >= this.code.length) {
+                if (this.last == 'L') {
+                    this.ip[0] = 0;
+                } else {
+                    console.log('DIE ' + this.ip + ' ' + this.code.length + ',' + this.code[0].length);
+                    this.dead = true;
+                    return;
+                }
             }
-        }
-        if (this.ip[1] < 0) {
-            if (this.last == 'L') {
-                this.ip[1] = this.code[0].length - 1;
-            } else {
-                this.dead = true;
-                return;
+            if (this.ip[1] < 0) {
+                if (this.last == 'L') {
+                    this.ip[1] = this.code[0].length - 1;
+                } else {
+                    console.log('DIE ' + this.ip + ' ' + this.code.length + ',' + this.code[0].length);
+                    this.dead = true;
+                    return;
+                }
             }
-        }
-        if (this.ip[1] >= this.code[0].length) {
-            if (this.last == 'L') {
-                this.ip[1] = 0;
-            } else {
-                this.dead = true;
-                return;
+            if (this.ip[1] >= this.code[0].length) {
+                if (this.last == 'L') {
+                    this.ip[1] = 0;
+                } else {
+                    console.log('DIE ' + this.ip + ' ' + this.code.length + ',' + this.code[0].length);
+                    this.dead = true;
+                    return;
+                }
             }
         }
         this.history.unshift([this.ip[0], this.ip[1]]);
         if (this.history.length > 80) {
             this.history.pop();
         }
-        // console.log(this.runner.threads.indexOf(this) + ' | ' + this.code[this.ip[0]][this.ip[1]] + ' | ' + this.ip[0] + ', ' + this.ip[1] + ' | ' + this.direction[0] + ', ' + this.direction[1] + ' | ' + this.stack.toString());
+        console.log('#' + this.runner.threads.indexOf(this) + ' | [' + /*this.code[this.ip[0]][this.ip[1]] +*/ '] | (' + this.ip[0] + ', ' + this.ip[1] + ') | {' + this.direction[0] + ', ' + this.direction[1] + '} | stack ' + this.stack.toString());
         let c = this.code[this.ip[0]][this.ip[1]];
         if (this.backslash && this.currentLiteralType == "string") {
             if (c === '`') {
