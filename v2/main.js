@@ -12,13 +12,16 @@ if (location.search) {
     if (params.get('code')) {
         code = fixCode(transpose(params.get('code').split('\n').map(line => line.split(''))));
     }
+    if (params.get('speed')) {
+        speed = parseInt(params.get('speed'));
+    }
 }
 
 let cursor = [0, 0];
 let running = false;
 let runner = new Runner(code);
 function fixCode(code) {
-    console.log(code);
+    // console.log(code);
     let maxLength = 0;
     for (let i = 0; i < code.length; i++) {
         const line = code[i];
@@ -29,7 +32,7 @@ function fixCode(code) {
             code[i].push(' ');
         }
     }
-    console.log(code);
+    // console.log(code);
     return code;
 }
 function inRect(x, y, x1, y1, w, h) {
@@ -40,12 +43,12 @@ addEventListener('click', e => {
         running = !running;
         if (running) {
             __ThreadID__ = 0;
-            runner = new Runner(fixCode(code.map(row => row.join('').trimEnd().split(''))));
+            runner = new Runner(fixCode(transpose(transpose(code).map(row => row.join('').trimEnd().split('')))));
         } else {
             __ThreadID__ = 0;
         }
     } else if (inRect(e.pageX, e.pageY, 21, 3, 18, 18)) {
-        alert(`${location.origin + location.pathname}?code=${encodeURIComponent(transpose(code).map(row => row.join('')).join('\n'))}`);
+        alert(`${location.origin + location.pathname}?code=${encodeURIComponent(transpose(code).map(row => row.join('')).join('\n'))}&speed=${speed}`);
     } else if (inRect(e.pageX, e.pageY, 21 + 18, 3, 18, 18)) {
         speed = Math.max(1, speed - 1);
     } else if (inRect(e.pageX, e.pageY, 21 + 36, 3, 18, 18)) {

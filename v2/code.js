@@ -41,22 +41,43 @@ class Thread {
         this.backslash = false;
         this.runner = runner;
         this.history = [];
+        this.last = '';
     }
 
     update() {
         this.ip[0] += this.direction[0];
         this.ip[1] += this.direction[1];
         if (this.ip[0] < 0) {
-            this.ip[0] = code.length - 1;
+            if (this.last == 'L') {
+                this.ip[0] = this.code.length - 1;
+            } else {
+                this.dead = true;
+                return;
+            }
         }
-        if (this.ip[0] >= code.length) {
-            this.ip[0] = 0;
+        if (this.ip[0] >= this.code.length) {
+            if (this.last == 'L') {
+                this.ip[0] = 0;
+            } else {
+                this.dead = true;
+                return;
+            }
         }
         if (this.ip[1] < 0) {
-            this.ip[1] = code[0].length - 1;
+            if (this.last == 'L') {
+                this.ip[1] = this.code[0].length - 1;
+            } else {
+                this.dead = true;
+                return;
+            }
         }
-        if (this.ip[1] >= code[0].length) {
-            this.ip[1] = 0;
+        if (this.ip[1] >= this.code[0].length) {
+            if (this.last == 'L') {
+                this.ip[1] = 0;
+            } else {
+                this.dead = true;
+                return;
+            }
         }
         this.history.unshift([this.ip[0], this.ip[1]]);
         if (this.history.length > 80) {
@@ -119,6 +140,7 @@ class Thread {
                 }
             }
         }
+        this.last = this.code[this.ip[0]][this.ip[1]];
     }
 }
 
