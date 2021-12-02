@@ -110,7 +110,7 @@ class Thread {
                             this.literal += c;
                         }
                     } else if (c === ',') {
-                        console.log(this.stack.pop());
+                        this.runner.write(this.stack.pop() + '\n');
                     } else if (c === 'F') {
                         this.runner.threads.push(new Thread([this.ip[0], this.ip[1]], this.code, this.runner));
                     } else if (c === 'K') {
@@ -126,6 +126,7 @@ class Runner {
     constructor(code) {
         this.code = code;
         this.threads = [new Thread([-1, 0], this.code, this)];
+        this.logs = [''];
     }
 
     runStep() {
@@ -135,6 +136,16 @@ class Runner {
             if (thread.dead) {
                 this.threads.splice(i, 1);
                 i--;
+            }
+        }
+    }
+
+    write(text) {
+        for (let i = 0; i < text.length; i++) {
+            if (text[i] == '\n') {
+                this.logs.push('');
+            } else {
+                this.logs[this.logs.length - 1] += text[i];
             }
         }
     }
