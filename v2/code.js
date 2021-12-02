@@ -138,10 +138,15 @@ class Thread {
                         }
                     } else if (c === ',') {
                         this.runner.write(this.stack.pop() + '\n');
-                    } else if (c === 'F') {
+                    } else if (c === 'f') {
                         this.runner.threads.push(new Thread([this.ip[0], this.ip[1]], this.code, this.runner));
+                        this.runner.threads[this.runner.threads.length - 1].direction = [this.direction[0], this.direction[1]];
+                        this.stack.push(true);
+                        this.runner.threads[this.runner.threads.length - 1].stack.push(false);
                     } else if (c === 'K') {
                         this.dead = true;
+                    } else if (c === '|') {
+                        this.direction = [-this.direction[0], -this.direction[1]];
                     }
                 }
             }
