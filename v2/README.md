@@ -5,7 +5,8 @@
 [https://astroide.github.io/---v/v2/](https://astroide.github.io/---v/v2/)
 
 ## Commands:
-> In the "Python Equivalent" column, `dir` is the current movement per iteration of the instruction pointer, and `ip` is the instruction pointer.
+> In the "Python Equivalent" column, `dir` is the current movement per iteration of the instruction pointer, and `ip` is the instruction pointer.  
+
 | Command | Description | Python Equivalent |
 |---------|-------------|-------------------|
 | `>` | Send instruction pointer rightwards | `dir = [1, 0]` |
