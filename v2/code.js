@@ -137,10 +137,10 @@ class Thread {
                             this.literal += c;
                         }
                     } else if (c === ',') {
-                        this.runner.write(this.stack.pop() + '\n');
+                        this.runner.write(this.toString(this.stack.pop()) + '\n');
                     } else if (c === 'p') {
                         let e = this.stack.pop();
-                        this.runner.write(e + '\n');
+                        this.runner.write(this.toString(e) + '\n');
                         this.stack.push(e);
                     } else if (c === 'f') {
                         this.runner.threads.push(new Thread([this.ip[0], this.ip[1]], this.code, this.runner));
@@ -151,14 +151,66 @@ class Thread {
                         this.dead = true;
                     } else if (c === '|') {
                         this.direction = [-this.direction[0], -this.direction[1]];
+                    } else if (c === '+') {
+                        let right = this.stack.pop();
+                        let left = this.stack.pop();
+                        this.stack.push(left + right);
+                    } else if (c === '-') {
+                        let right = this.stack.pop();
+                        let left = this.stack.pop();
+                        if (typeof left === 'number' && typeof right === 'number') {
+                            this.stack.push(left - right);
+                        } else if (typeof left === 'string' && typeof right === 'string') {
+                            this.stack.push(left.replace(new RegExp(right, 'g'), ''));
+                        }
+                    } else if (c === '*') {
+                        let right = this.stack.pop();
+                        let left = this.stack.pop();
+                        if (typeof left === 'number' && typeof right === 'number') {
+                            this.stack.push(left * right);
+                        } else if (typeof left === 'string' && typeof right === 'number') {
+                            let s = '';
+                            for (let i = 0; i < right; i++) {
+                                s += left;
+                            }
+                            this.stack.push(s);
+                        }
+                    } else if (c === '/') {
+                        let right = this.stack.pop();
+                        let left = this.stack.pop();
+                        if (typeof left === 'number' && typeof right === 'number') {
+                            this.stack.push(left / right);
+                        } else if (typeof left === 'string' && typeof right === 'number') {
+                            let parts = [];
+                            let x = left.length;
+                            x /= right;
+                            x = Math.floor(x);
+                            let q = 0;
+                            while (left.length > q) {
+                                parts.push(left.substring(q, q + right));
+                                q += right;
+                            }
+                            this.stack.push(parts);
+                        }
                     }
                 }
             }
+            this.last = this.code[this.ip[0]][this.ip[1]];
         }
-        this.last = this.code[this.ip[0]][this.ip[1]];
+    }
+
+    toString(x) {
+        if (typeof x === 'number') {
+            return x.toString();
+        }
+        if (typeof x === 'string') {
+            return x;
+        }
+        if (Array.isArray(x)) {
+            return '[' + x.map(this.toString, this).join(', ') + ']';
+        }
     }
 }
-
 class Runner {
     constructor(code) {
         this.code = code;
