@@ -139,7 +139,9 @@ class Thread {
                     } else if (c === ',') {
                         this.runner.write(this.stack.pop() + '\n');
                     } else if (c === 'p') {
-                        this.runner.write(this.stack.pop() + '\n');
+                        let e = this.stack.pop();
+                        this.runner.write(e + '\n');
+                        this.stack.push(e);
                     } else if (c === 'f') {
                         this.runner.threads.push(new Thread([this.ip[0], this.ip[1]], this.code, this.runner));
                         this.runner.threads[this.runner.threads.length - 1].direction = [this.direction[0], this.direction[1]];
