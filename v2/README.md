@@ -13,7 +13,7 @@ In the "Python Equivalent" column, `dir` is the current movement per iteration o
 | `^` | Send instruction pointer upwards | `dir = [0, -1]` |
 | `v` | Send instruction pointer downwards | `dir = [0, 1]` |
 | `L` | Loop: if the instruction pointer goes outside the code the next iteration, wrap around to the other side | `if ip[0] < 0: ip[0] = len(code) - 1`, `if ip[1] < 0: ip[1] = len(code[ip[1]]) - 1` and `ip[0] %= len(code); ip[1] %= len(code[ip[0]])` |
-| `|` | Mirror: inverse IP direction | `dir = [-dir[0], -dir[1]]` |
+| `\|` | Mirror: inverse IP direction | `dir = [-dir[0], -dir[1]]` |
 | `,` | Pop stack and print with a newline | `print(pop())` |
 | `p` | Print top of stack with a newline | `print(stack[-1])` |
 | `[0123456789.]` | Number literals, can be altered by `<>^v` IP instructions | `push(<number>)` |
