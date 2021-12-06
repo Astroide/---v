@@ -33,6 +33,7 @@ class Thread {
         this.direction = [1, 0];
         this.code = code;
         this.stack = new Stack();
+        this.registers = {};
         this.dead = false;
         /** @type {'number' | 'string'} */
         this.currentLiteralType = '';
@@ -192,6 +193,12 @@ class Thread {
                             }
                             this.stack.push(parts);
                         }
+                    } else if (c === ':') {
+                        let e = this.stack.pop();
+                        this.stack.push(e);
+                        this.stack.push(e);
+                    } else if (c === '_') {
+                        this.stack.pop();
                     }
                 }
             }

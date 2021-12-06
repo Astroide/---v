@@ -2,6 +2,84 @@ const $ = document.querySelector.bind(document);
 /** @type {HTMLCanvasElement} */
 const canvas = $('#code');
 const ctx = canvas.getContext('2d');
+const codePage = {
+    '20': ' ',
+    '2a': '*',
+    '2b': '+',
+    '2c': ',',
+    '2d': '-',
+    '2e': '.',
+    '2f': '/',
+    '30': '0',
+    '31': '1',
+    '32': '2',
+    '33': '3',
+    '34': '4',
+    '35': '5',
+    '36': '6',
+    '37': '7',
+    '38': '8',
+    '39': '9',
+    '3a': ':',
+    '3c': '<',
+    '3e': '>',
+    '41': 'A',
+    '42': 'B',
+    '43': 'C',
+    '44': 'D',
+    '45': 'E',
+    '46': 'F',
+    '47': 'G',
+    '48': 'H',
+    '49': 'I',
+    '4a': 'J',
+    '4b': 'K',
+    '4c': 'L',
+    '4d': 'M',
+    '4e': 'N',
+    '4f': 'O',
+    '50': 'P',
+    '51': 'Q',
+    '52': 'R',
+    '53': 'S',
+    '54': 'T',
+    '55': 'U',
+    '56': 'V',
+    '57': 'W',
+    '58': 'X',
+    '59': 'Y',
+    '5a': 'Z',
+    '5e': '^',
+    '5f': '_',
+    '60': '`',
+    '61': 'a',
+    '62': 'b',
+    '63': 'c',
+    '64': 'd',
+    '65': 'e',
+    '66': 'f',
+    '67': 'g',
+    '68': 'h',
+    '69': 'i',
+    '6a': 'j',
+    '6b': 'k',
+    '6c': 'l',
+    '6d': 'm',
+    '6e': 'n',
+    '6f': 'o',
+    '70': 'p',
+    '71': 'q',
+    '72': 'r',
+    '73': 's',
+    '74': 't',
+    '75': 'u',
+    '76': 'v',
+    '77': 'w',
+    '78': 'x',
+    '79': 'y',
+    '7a': 'z',
+    '7c': '|',
+};
 let code = [
     [' ']
 ];
@@ -38,6 +116,89 @@ function fixCode(code) {
 function inRect(x, y, x1, y1, w, h) {
     return x >= x1 && y >= y1 && x < x1 + w && y < y1 + h;
 }
+function handleEvent(e) {
+    switch (e.key) {
+        case 'ArrowUp':
+            cursor[1] -= 1;
+            if (cursor[1] < 0) {
+                cursor[1] = 0;
+            }
+            e.preventDefault();
+            break;
+        case 'ArrowLeft':
+            cursor[0] -= 1;
+            if (cursor[0] < 0) {
+                cursor[0] = 0;
+            }
+            e.preventDefault();
+            break;
+        case 'ArrowDown':
+            cursor[1]++;
+            if (cursor[1] >= code[cursor[0]].length) {
+                cursor[1] = code[cursor[0]].length - 1;
+            }
+            e.preventDefault();
+            break;
+        case 'ArrowRight':
+            cursor[0]++;
+            if (cursor[0] >= code.length) {
+                cursor[0] = code.length - 1;
+            }
+            e.preventDefault();
+            break;
+        case 'Backspace':
+            if (running) break;
+            code[cursor[0]][cursor[1]] = ' ';
+            // cursor[0]--;
+            // if (cursor[0] < 0) {
+            // cursor[0] = 0;
+            // }
+            break;
+        case 'Enter':
+        case 'Return':
+            if (running) break;
+            cursor[1]++;
+            if (cursor[1] >= code[cursor[0]].length) {
+                for (let i = 0; i < code.length; i++) {
+                    code[i].push(' ');
+                }
+            }
+            break;
+        case ' ':
+            e.preventDefault();
+            if (running) break;
+        default:
+            if (running) break;
+            if (e.key.toString() == 'Dead') {
+                e = {
+                    key: '^'
+                };
+            }
+            if (e.key.length != 1) {
+                console.log(e.key, e.key.toString() == 'Dead');
+                break;
+            }
+            code[cursor[0]][cursor[1]] = e.key;
+            cursor[0]++;
+            if (cursor[0] >= code.length) {
+                code.push([]);
+                for (let i = 0; i < code[0].length; i++) {
+                    code[code.length - 1].push(' ');
+                }
+            }
+            break;
+
+    }
+    draw();
+}
+function fakeEvent(key) {
+    const e = {
+        key,
+        preventDefault() {
+        }
+    };
+    handleEvent(e);
+}
 addEventListener('click', e => {
     if (inRect(e.pageX, e.pageY, 3, 3, 18, 18)) {
         running = !running;
@@ -54,6 +215,18 @@ addEventListener('click', e => {
         speed = Math.max(1, speed - 1);
     } else if (inRect(e.pageX, e.pageY, 21 + 36, 3, 18, 18)) {
         speed = Math.min(1000, speed + 1);
+    } else if (inRect(e.pageX, e.pageY, canvas.width - 294, 36, 288, 288)) {
+        for (let i = 0; i < 16; i++) {
+            for (let j = 0; j < 16; j++) {
+                let index = j * 16 + i;
+                let hex = index.toString(16).toLowerCase();
+                if (codePage[hex] !== undefined) {
+                    if (inRect(e.pageX, e.pageY, canvas.width - 294 + i * 18, j * 18 + 36, 18, 18)) {
+                        fakeEvent(codePage[hex]);
+                    }
+                }
+            }
+        }
     } else {
         let metaX = e.pageX - 18 + (cursor[0] * 18 - (canvas.width - 318) + ((canvas.width - 300) / 2));
         let metaY = e.pageY - 36 + (cursor[1] * 18 - (canvas.height - 336) + 18 + ((canvas.height - 300) / 2));
@@ -161,6 +334,19 @@ function draw() {
             ctx.fillText(runner.logs[i], canvas.width - 300 + 3, (j + 1) * 20 + 3);
             j++;
         }
+    } else {
+        for (let i = 0; i < 16; i++) {
+            for (let j = 0; j < 16; j++) {
+                let index = j * 16 + i;
+                let hex = index.toString(16).toLowerCase();
+                if (codePage[hex] !== undefined) {
+                    ctx.fillStyle = '#aaa';
+                    ctx.fillRect(canvas.width - 294 + i * 18, j * 18 + 36, 18, 18);
+                    ctx.fillStyle = 'black';
+                    ctx.fillText(codePage[hex], canvas.width - 294 + i * 18 + 3, j * 18 + 36 + 3);
+                }
+            }
+        }
     }
 }
 
@@ -174,81 +360,7 @@ function update() {
     setTimeout(update, 1000 / speed);
 }
 
-addEventListener('keydown', e => {
-    switch (e.key) {
-        case 'ArrowUp':
-            cursor[1] -= 1;
-            if (cursor[1] < 0) {
-                cursor[1] = 0;
-            }
-            e.preventDefault();
-            break;
-        case 'ArrowLeft':
-            cursor[0] -= 1;
-            if (cursor[0] < 0) {
-                cursor[0] = 0;
-            }
-            e.preventDefault();
-            break;
-        case 'ArrowDown':
-            cursor[1]++;
-            if (cursor[1] >= code[cursor[0]].length) {
-                cursor[1] = code[cursor[0]].length - 1;
-            }
-            e.preventDefault();
-            break;
-        case 'ArrowRight':
-            cursor[0]++;
-            if (cursor[0] >= code.length) {
-                cursor[0] = code.length - 1;
-            }
-            e.preventDefault();
-            break;
-        case 'Backspace':
-            if (running) break;
-            code[cursor[0]][cursor[1]] = ' ';
-            // cursor[0]--;
-            // if (cursor[0] < 0) {
-            // cursor[0] = 0;
-            // }
-            break;
-        case 'Enter':
-        case 'Return':
-            if (running) break;
-            cursor[1]++;
-            if (cursor[1] >= code[cursor[0]].length) {
-                for (let i = 0; i < code.length; i++) {
-                    code[i].push(' ');
-                }
-            }
-            break;
-        case ' ':
-            e.preventDefault();
-            if (running) break;
-        default:
-            if (running) break;
-            if (e.key.toString() == 'Dead') {
-                e = {
-                    key: '^'
-                };
-            }
-            if (e.key.length != 1) {
-                console.log(e.key, e.key.toString() == 'Dead');
-                break;
-            }
-            code[cursor[0]][cursor[1]] = e.key;
-            cursor[0]++;
-            if (cursor[0] >= code.length) {
-                code.push([]);
-                for (let i = 0; i < code[0].length; i++) {
-                    code[code.length - 1].push(' ');
-                }
-            }
-            break;
-
-    }
-    draw();
-});
+addEventListener('keydown', handleEvent);
 
 update();
 resize();
