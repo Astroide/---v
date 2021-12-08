@@ -116,6 +116,12 @@ function fixCode(code) {
 function inRect(x, y, x1, y1, w, h) {
     return x >= x1 && y >= y1 && x < x1 + w && y < y1 + h;
 }
+let mouseX = 0;
+let mouseY = 0;
+addEventListener('mousemove', e => {
+    mouseX = e.pageX;
+    mouseY = e.pageY;
+});
 function handleEvent(e) {
     switch (e.key) {
         case 'ArrowUp':
@@ -215,7 +221,7 @@ addEventListener('click', e => {
         speed = Math.max(1, speed - 1);
     } else if (inRect(e.pageX, e.pageY, 21 + 36, 3, 18, 18)) {
         speed = Math.min(1000, speed + 1);
-    } else if (inRect(e.pageX, e.pageY, canvas.width - 294, 36, 288, 288)) {
+    } else if (!running && inRect(e.pageX, e.pageY, canvas.width - 294, 36, 288, 288)) {
         for (let i = 0; i < 16; i++) {
             for (let j = 0; j < 16; j++) {
                 let index = j * 16 + i;
@@ -249,26 +255,26 @@ addEventListener('resize', resize);
 function applyTranslate() {
     ctx.translate(- (cursor[0] * 18 - (canvas.width - 318) + ((canvas.width - 300) / 2)), - (cursor[1] * 18 - (canvas.height - 336) + 18 + ((canvas.height - 300) / 2)));
 }
+function specialFillRect(x, y, w, h, a, b) {
+    ctx.fillStyle = inRect(mouseX, mouseY, x, y, w, h) ? b : a;
+    ctx.fillRect(x, y, w, h);
+}
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.font = '15px Courier';
     ctx.textBaseline = 'top';
-    ctx.fillStyle = running ? 'green' : 'grey';
-    ctx.fillRect(3, 3, 18, 18);
+    specialFillRect(3, 3, 18, 18, running ? 'green' : '#ccc', running ? 'darkgreen' : '#888');
     ctx.fillStyle = 'black';
     ctx.fillText(running ? '◼︎' : '▶︎', 6, 6);
-    ctx.fillStyle = '#ccc';
-    ctx.fillRect(21, 3, 18, 18);
+    specialFillRect(21, 3, 18, 18, '#ccc', '#888');
     ctx.fillStyle = 'black';
     ctx.fillText('⫘', 18 + 6, 6);
-    ctx.fillStyle = '#ccc';
-    ctx.fillRect(39, 3, 18, 18);
+    specialFillRect(39, 3, 18, 18, '#ccc', '#888');
     ctx.fillStyle = 'black';
-    ctx.fillText('v', 42 + 6, 6);
-    ctx.fillStyle = '#ccc';
-    ctx.fillRect(39 + 18, 3, 18, 18);
+    ctx.fillText('v', 42 + 3, 6);
+    specialFillRect(39 + 18, 3, 18, 18, '#ccc', '#888');
     ctx.fillStyle = 'black';
-    ctx.fillText('^', 42 + 18 + 6, 6);
+    ctx.fillText('^', 42 + 18 + 3, 6);
     ctx.fillText(`<>^v v2 ${running ? 'Running ' : ''}(${cursor[0]}, ${cursor[1]}) ${speed} TPS`, 24 + 18 + 36, 6);
     if (!running) {
         ctx.save();
@@ -340,7 +346,11 @@ function draw() {
                 let index = j * 16 + i;
                 let hex = index.toString(16).toLowerCase();
                 if (codePage[hex] !== undefined) {
-                    ctx.fillStyle = '#aaa';
+                    if (inRect(mouseX, mouseY, canvas.width - 294 + i * 18, j * 18 + 36, 18, 18)) {
+                        ctx.fillStyle = '#888';
+                    } else {
+                        ctx.fillStyle = '#aaa';
+                    }
                     ctx.fillRect(canvas.width - 294 + i * 18, j * 18 + 36, 18, 18);
                     ctx.fillStyle = 'black';
                     ctx.fillText(codePage[hex], canvas.width - 294 + i * 18 + 3, j * 18 + 36 + 3);
@@ -357,7 +367,11 @@ function update() {
         runner.runStep();
     }
     draw();
-    setTimeout(update, 1000 / speed);
+    if (running) {
+        setTimeout(update, 1000 / speed);
+    } else {
+        requestAnimationFrame(update);
+    }
 }
 
 addEventListener('keydown', handleEvent);
