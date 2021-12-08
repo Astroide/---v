@@ -218,7 +218,7 @@ class Thread {
                             this.skip = true;
                         }
                     } else if (c === '!') {
-                        this.push(!this.pop());
+                        this.stack.push(!this.stack.pop());
                     }
                 }
             }

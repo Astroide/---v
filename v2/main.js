@@ -36,7 +36,7 @@ const codePage = {
     '49': ['I', 'undocumented / not yet assigned'],
     '4a': ['J', 'undocumented / not yet assigned'],
     '4b': ['K', 'undocumented / not yet assigned'],
-    '4c': ['L', 'undocumented / not yet assigned'],
+    '4c': ['L', 'Wrap around when reaching edge (must be on an edge, otherwise no-op)'],
     '4d': ['M', 'undocumented / not yet assigned'],
     '4e': ['N', 'undocumented / not yet assigned'],
     '4f': ['O', 'undocumented / not yet assigned'],
