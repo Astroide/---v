@@ -3,86 +3,116 @@ const $ = document.querySelector.bind(document);
 const canvas = $('#code');
 const ctx = canvas.getContext('2d');
 const codePage = {
-    '20': ' ',
-    '21': '!',
-    '2a': '*',
-    '2b': '+',
-    '2c': ',',
-    '2d': '-',
-    '2e': '.',
-    '2f': '/',
-    '30': '0',
-    '31': '1',
-    '32': '2',
-    '33': '3',
-    '34': '4',
-    '35': '5',
-    '36': '6',
-    '37': '7',
-    '38': '8',
-    '39': '9',
-    '3a': ':',
-    '3c': '<',
-    '3e': '>',
-    '3f': '?',
-    '41': 'A',
-    '42': 'B',
-    '43': 'C',
-    '44': 'D',
-    '45': 'E',
-    '46': 'F',
-    '47': 'G',
-    '48': 'H',
-    '49': 'I',
-    '4a': 'J',
-    '4b': 'K',
-    '4c': 'L',
-    '4d': 'M',
-    '4e': 'N',
-    '4f': 'O',
-    '50': 'P',
-    '51': 'Q',
-    '52': 'R',
-    '53': 'S',
-    '54': 'T',
-    '55': 'U',
-    '56': 'V',
-    '57': 'W',
-    '58': 'X',
-    '59': 'Y',
-    '5a': 'Z',
-    '5e': '^',
-    '5f': '_',
-    '60': '`',
-    '61': 'a',
-    '62': 'b',
-    '63': 'c',
-    '64': 'd',
-    '65': 'e',
-    '66': 'f',
-    '67': 'g',
-    '68': 'h',
-    '69': 'i',
-    '6a': 'j',
-    '6b': 'k',
-    '6c': 'l',
-    '6d': 'm',
-    '6e': 'n',
-    '6f': 'o',
-    '70': 'p',
-    '71': 'q',
-    '72': 'r',
-    '73': 's',
-    '74': 't',
-    '75': 'u',
-    '76': 'v',
-    '77': 'w',
-    '78': 'x',
-    '79': 'y',
-    '7a': 'z',
-    '7c': '|',
-    'bf': '¿',
+    '20': [' ', 'No-op'],
+    '21': ['!', 'Negate'],
+    '2a': ['*', 'Multiply'],
+    '2b': ['+', 'Add / Concatenate'],
+    '2c': [',', 'Print with newline'],
+    '2d': ['-', 'Substract'],
+    '2e': ['.', 'Dot in number literals'],
+    '2f': ['/', 'Divide'],
+    '30': ['0', 'Corresponding digit in number literals'],
+    '31': ['1', 'Corresponding digit in number literals'],
+    '32': ['2', 'Corresponding digit in number literals'],
+    '33': ['3', 'Corresponding digit in number literals'],
+    '34': ['4', 'Corresponding digit in number literals'],
+    '35': ['5', 'Corresponding digit in number literals'],
+    '36': ['6', 'Corresponding digit in number literals'],
+    '37': ['7', 'Corresponding digit in number literals'],
+    '38': ['8', 'Corresponding digit in number literals'],
+    '39': ['9', 'Corresponding digit in number literals'],
+    '3a': [':', 'Duplicate top of stack'],
+    '3c': ['<', 'IP <'],
+    '3e': ['>', 'IP >'],
+    '3f': ['?', 'If - execute next only if pop()'],
+    '41': ['A', 'undocumented / not yet assigned'],
+    '42': ['B', 'undocumented / not yet assigned'],
+    '43': ['C', 'undocumented / not yet assigned'],
+    '44': ['D', 'undocumented / not yet assigned'],
+    '45': ['E', 'undocumented / not yet assigned'],
+    '46': ['F', 'Push false'],
+    '47': ['G', 'undocumented / not yet assigned'],
+    '48': ['H', 'undocumented / not yet assigned'],
+    '49': ['I', 'undocumented / not yet assigned'],
+    '4a': ['J', 'undocumented / not yet assigned'],
+    '4b': ['K', 'undocumented / not yet assigned'],
+    '4c': ['L', 'undocumented / not yet assigned'],
+    '4d': ['M', 'undocumented / not yet assigned'],
+    '4e': ['N', 'undocumented / not yet assigned'],
+    '4f': ['O', 'undocumented / not yet assigned'],
+    '50': ['P', 'undocumented / not yet assigned'],
+    '51': ['Q', 'undocumented / not yet assigned'],
+    '52': ['R', 'undocumented / not yet assigned'],
+    '53': ['S', 'undocumented / not yet assigned'],
+    '54': ['T', 'Push true'],
+    '55': ['U', 'undocumented / not yet assigned'],
+    '56': ['V', 'undocumented / not yet assigned'],
+    '57': ['W', 'undocumented / not yet assigned'],
+    '58': ['X', 'undocumented / not yet assigned'],
+    '59': ['Y', 'undocumented / not yet assigned'],
+    '5a': ['Z', 'undocumented / not yet assigned'],
+    '5c': ['\\', 'Escape backticks, ^<>v control characters and backslashes within strings'],
+    '5e': ['^', 'IP ^'],
+    '5f': ['_', 'Pop'],
+    '60': ['`', 'Start / end string literal'],
+    '61': ['a', 'undocumented / not yet assigned'],
+    '62': ['b', 'undocumented / not yet assigned'],
+    '63': ['c', 'undocumented / not yet assigned'],
+    '64': ['d', 'undocumented / not yet assigned'],
+    '65': ['e', 'undocumented / not yet assigned'],
+    '66': ['f', 'Fork - create a new thread. Push true on the parent thread\'s stack and false on the child thread\'s stack'],
+    '67': ['g', 'undocumented / not yet assigned'],
+    '68': ['h', 'undocumented / not yet assigned'],
+    '69': ['i', 'undocumented / not yet assigned'],
+    '6a': ['j', 'undocumented / not yet assigned'],
+    '6b': ['k', 'Halt the current thread'],
+    '6c': ['l', 'undocumented / not yet assigned'],
+    '6d': ['m', 'undocumented / not yet assigned'],
+    '6e': ['n', 'undocumented / not yet assigned'],
+    '6f': ['o', 'undocumented / not yet assigned'],
+    '70': ['p', 'undocumented / not yet assigned'],
+    '71': ['q', 'undocumented / not yet assigned'],
+    '72': ['r', 'undocumented / not yet assigned'],
+    '73': ['s', 'undocumented / not yet assigned'],
+    '74': ['t', 'undocumented / not yet assigned'],
+    '75': ['u', 'undocumented / not yet assigned'],
+    '76': ['v', 'undocumented / not yet assigned'],
+    '77': ['w', 'undocumented / not yet assigned'],
+    '78': ['x', 'undocumented / not yet assigned'],
+    '79': ['y', 'undocumented / not yet assigned'],
+    '7a': ['z', 'undocumented / not yet assigned'],
+    '7c': ['|', 'Mirror - inverse IP direction'],
+    'bf': ['¿', 'Unless - execute next unless pop() is truthy'],
 };
+function fillTextWithWordWrap(ctx, text, x, y, lineHeight, maxWidth) {
+    maxWidth = maxWidth || 0;
+
+    if (maxWidth <= 0) {
+        ctx.fillText(text, x, y);
+        return;
+    }
+    var words = text.split(' ');
+    var currentLine = 0;
+    var index = 1;
+    while (words.length > 0 && index <= words.length) {
+        var str = words.slice(0, index).join(' ');
+        var w = ctx.measureText(str).width;
+        if (w > maxWidth) {
+            if (index == 1) {
+                index = 2;
+            }
+            ctx.fillText(words.slice(0, index - 1).join(' '), x, y + (lineHeight * currentLine));
+            currentLine++;
+            words = words.splice(index - 1);
+            index = 1;
+        } else {
+            index++;
+        }
+    }
+    if (index > 0) {
+        ctx.fillText(words.join(' '), x, y + (lineHeight * currentLine));
+    }
+}
 let code = [
     [' ']
 ];
@@ -231,7 +261,7 @@ addEventListener('click', e => {
                 let hex = index.toString(16).toLowerCase();
                 if (codePage[hex] !== undefined) {
                     if (inRect(e.pageX, e.pageY, canvas.width - 294 + i * 18, j * 18 + 36, 18, 18)) {
-                        fakeEvent(codePage[hex]);
+                        fakeEvent(codePage[hex][0]);
                     }
                 }
             }
@@ -349,14 +379,18 @@ function draw() {
                 let index = j * 16 + i;
                 let hex = index.toString(16).toLowerCase();
                 if (codePage[hex] !== undefined) {
-                    if (inRect(mouseX, mouseY, canvas.width - 294 + i * 18, j * 18 + 36, 18, 18)) {
+                    let hovering = inRect(mouseX, mouseY, canvas.width - 294 + i * 18, j * 18 + 36, 18, 18);
+                    if (hovering) {
                         ctx.fillStyle = '#888';
                     } else {
                         ctx.fillStyle = '#aaa';
                     }
                     ctx.fillRect(canvas.width - 294 + i * 18, j * 18 + 36, 18, 18);
                     ctx.fillStyle = 'black';
-                    ctx.fillText(codePage[hex], canvas.width - 294 + i * 18 + 3, j * 18 + 36 + 3);
+                    ctx.fillText(codePage[hex][0], canvas.width - 294 + i * 18 + 3, j * 18 + 36 + 3);
+                    if (hovering) {
+                        fillTextWithWordWrap(ctx, codePage[hex][1], canvas.width - 295, 19 * 18, 15, 290);
+                    }
                 }
             }
         }
