@@ -91,6 +91,10 @@ class Thread {
             this.history.pop();
         }
         console.log('#' + this.runner.threads.indexOf(this) + ' | [' + /*this.code[this.ip[0]][this.ip[1]] +*/ '] | (' + this.ip[0] + ', ' + this.ip[1] + ') | {' + this.direction[0] + ', ' + this.direction[1] + '} | stack ' + this.stack.toString());
+        if (this.skip) {
+            this.skip = false;
+            return;
+        }
         let c = this.code[this.ip[0]][this.ip[1]];
         if (this.backslash && this.currentLiteralType == "string") {
             if (c === '`') {
@@ -148,7 +152,7 @@ class Thread {
                         this.runner.threads[this.runner.threads.length - 1].direction = [this.direction[0], this.direction[1]];
                         this.stack.push(true);
                         this.runner.threads[this.runner.threads.length - 1].stack.push(false);
-                    } else if (c === 'K') {
+                    } else if (c === 'k') {
                         this.dead = true;
                     } else if (c === '|') {
                         this.direction = [-this.direction[0], -this.direction[1]];
@@ -199,6 +203,22 @@ class Thread {
                         this.stack.push(e);
                     } else if (c === '_') {
                         this.stack.pop();
+                    } else if (c === 'T') {
+                        this.stack.push(true);
+                    } else if (c === 'F') {
+                        this.stack.push(false);
+                    } else if (c === '?') {
+                        let value = this.stack.pop();
+                        if (!value) {
+                            this.skip = true;
+                        }
+                    } else if (c === '¿') {
+                        let value = this.stack.pop();
+                        if (value) {
+                            this.skip = true;
+                        }
+                    } else if (c === '!') {
+                        this.push(!this.pop());
                     }
                 }
             }

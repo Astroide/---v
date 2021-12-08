@@ -4,6 +4,7 @@ const canvas = $('#code');
 const ctx = canvas.getContext('2d');
 const codePage = {
     '20': ' ',
+    '21': '!',
     '2a': '*',
     '2b': '+',
     '2c': ',',
@@ -23,6 +24,7 @@ const codePage = {
     '3a': ':',
     '3c': '<',
     '3e': '>',
+    '3f': '?',
     '41': 'A',
     '42': 'B',
     '43': 'C',
@@ -79,6 +81,7 @@ const codePage = {
     '79': 'y',
     '7a': 'z',
     '7c': '|',
+    'bf': '¿',
 };
 let code = [
     [' ']
