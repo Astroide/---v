@@ -20,6 +20,27 @@ class Stack {
         }).join(' ')}]`;
     }
 }
+function equals(a, b) {
+    if (Array.isArray(a) && Array.isArray(b)) {
+        return a.every((value, index) => equals(value, b[index]));
+    } else if (typeof a !== typeof b) {
+        return false;
+    } else if (typeof a === 'number') {
+        return a === b;
+    } else if (typeof a === 'string') {
+        return a === b;
+    } else if (typeof a == 'object') {
+        return Object.keys(a).every(name => {
+            return name in b && equals(a[name], b[name]);
+        }) && Object.keys(b).every(name => {
+            return name in a && equals(b[name], a[name]);
+        });
+    } else if (typeof a == 'function') {
+        return a.toString() === b.toString();
+    } else {
+        return a === b;
+    }
+}
 let __ThreadID__ = 0;
 class Thread {
     /**
@@ -221,6 +242,26 @@ class Thread {
                         this.stack.push(!this.stack.pop());
                     } else if (c === '#') {
                         this.skip = true;
+                    } else if (c === '=') {
+                        let right = this.stack.pop();
+                        let left = this.stack.pop();
+                        this.stack.push(equals(left, right));
+                    } else if (c === '«') {
+                        let right = this.stack.pop();
+                        let left = this.stack.pop();
+                        this.stack.push(left < right);
+                    } else if (c === '»') {
+                        let right = this.stack.pop();
+                        let left = this.stack.pop();
+                        this.stack.push(left > right);
+                    } else if (c === '≤') {
+                        let right = this.stack.pop();
+                        let left = this.stack.pop();
+                        this.stack.push(left <= right);
+                    } else if (c === '≥') {
+                        let right = this.stack.pop();
+                        let left = this.stack.pop();
+                        this.stack.push(left >= right);
                     }
                 }
             }
@@ -237,6 +278,9 @@ class Thread {
         }
         if (Array.isArray(x)) {
             return '[' + x.map(this.toString, this).join(', ') + ']';
+        }
+        if (typeof x === 'boolean') {
+            return x ? 'true' : 'false';
         }
     }
 }

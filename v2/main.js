@@ -24,6 +24,7 @@ const codePage = {
     '39': ['9', 'Corresponding digit in number literals'],
     '3a': [':', 'Duplicate top of stack'],
     '3c': ['<', 'IP <'],
+    '3d': ['=', 'Equals'],
     '3e': ['>', 'IP >'],
     '3f': ['?', 'If - execute next only if pop()'],
     '41': ['A', 'undocumented / not yet assigned'],
@@ -83,6 +84,10 @@ const codePage = {
     '79': ['y', 'undocumented / not yet assigned'],
     '7a': ['z', 'undocumented / not yet assigned'],
     '7c': ['|', 'Mirror - inverse IP direction'],
+    'a0': ['«', 'Lesser than'],
+    'a1': ['»', 'Greater than'],
+    'a2': ['≤', 'Lesser or equal'],
+    'a3': ['≥', 'Greater or equal'],
     'bf': ['¿', 'Unless - execute next unless pop() is truthy'],
 };
 function fillTextWithWordWrap(ctx, text, x, y, lineHeight, maxWidth) {
