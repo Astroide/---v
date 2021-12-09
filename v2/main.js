@@ -5,6 +5,7 @@ const ctx = canvas.getContext('2d');
 const codePage = {
     '20': [' ', 'No-op'],
     '21': ['!', 'Negate'],
+    '23': ['#', 'Trampoline - skip next'],
     '2a': ['*', 'Multiply'],
     '2b': ['+', 'Add / Concatenate'],
     '2c': [',', 'Print with newline'],
