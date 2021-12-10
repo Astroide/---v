@@ -225,6 +225,21 @@ class Thread {
                             }
                             this.stack.push(parts);
                         }
+                    } else if (c === '%') {
+                        let right = this.stack.pop();
+                        let left = this.stack.pop();
+                        if (typeof left === 'number' && typeof right === 'number') {
+                            this.stack.push(left % right);
+                        } else if (typeof left === 'string' && typeof right === 'number') {
+                            let parts = [];
+                            let i = 0;
+                            while (i + right < left.length) {
+                                parts.push(left.substring(i, i + right));
+                                i += right;
+                            }
+                            parts.push(left.substring(i));
+                            this.stack.push(parts);
+                        }
                     } else if (c === ':') {
                         let e = this.stack.pop();
                         this.stack.push(e);
