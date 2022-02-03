@@ -44,7 +44,7 @@ def handler_right(*args):
     handlers["Right"](0)
 
 
-with open(filename, mode='r') as file:
+with open(filename, mode='r', encoding='utf-8') as file:
     file_data = file.read().split('\n')
     content = [[j for j in i] for i in file_data]
     pointer_position = [0, 0]
