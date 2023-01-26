@@ -58,7 +58,18 @@ class Thread {
         this.direction = [1, 0];
         this.code = code;
         this.stack = new Stack();
-        this.registers = {};
+        this.registers = {
+          q: 0,
+          w: 0,
+          e: 0,
+          r: 0
+        };
+        this.deques = {
+          y: [],
+          u: [],
+          i: [],
+          o: []
+        }
         this.dead = false;
         /** @type {'number' | 'string'} */
         this.currentLiteralType = '';
@@ -73,49 +84,47 @@ class Thread {
     update() {
         this.ip[0] += this.direction[0];
         this.ip[1] += this.direction[1];
-        if (this.last.length !== 0) {
-            if (this.ip[0] < 0) {
-                if (this.last == 'L') {
-                    this.ip[0] = this.code.length - 1;
-                } else {
-                    console.log('DIE ' + this.ip + ' ' + this.code.length + ',' + this.code[0].length);
-                    this.dead = true;
-                    return;
-                }
+        if (this.ip[0] < 0) {
+            if (this.last == 'L') {
+                this.ip[0] = this.code.length - 1;
+            } else {
+                // console.log('DIE ' + this.ip + ' ' + this.code.length + ',' + this.code[0].length);
+                this.dead = true;
+                return;
             }
-            if (this.ip[0] >= this.code.length) {
-                if (this.last == 'L') {
-                    this.ip[0] = 0;
-                } else {
-                    console.log('DIE ' + this.ip + ' ' + this.code.length + ',' + this.code[0].length);
-                    this.dead = true;
-                    return;
-                }
+        }
+        if (this.ip[0] >= this.code.length) {
+            if (this.last == 'L') {
+                this.ip[0] = 0;
+            } else {
+                // console.log('DIE ' + this.ip + ' ' + this.code.length + ',' + this.code[0].length);
+                this.dead = true;
+                return;
             }
-            if (this.ip[1] < 0) {
-                if (this.last == 'L') {
-                    this.ip[1] = this.code[0].length - 1;
-                } else {
-                    console.log('DIE ' + this.ip + ' ' + this.code.length + ',' + this.code[0].length);
-                    this.dead = true;
-                    return;
-                }
+        }
+        if (this.ip[1] < 0) {
+            if (this.last == 'L') {
+                this.ip[1] = this.code[0].length - 1;
+            } else {
+                // console.log('DIE ' + this.ip + ' ' + this.code.length + ',' + this.code[0].length);
+                this.dead = true;
+                return;
             }
-            if (this.ip[1] >= this.code[0].length) {
-                if (this.last == 'L') {
-                    this.ip[1] = 0;
-                } else {
-                    console.log('DIE ' + this.ip + ' ' + this.code.length + ',' + this.code[0].length);
-                    this.dead = true;
-                    return;
-                }
+        }
+        if (this.ip[1] >= this.code[0].length) {
+            if (this.last == 'L') {
+                this.ip[1] = 0;
+            } else {
+                // console.log('DIE ' + this.ip + ' ' + this.code.length + ',' + this.code[0].length);
+                this.dead = true;
+                return;
             }
         }
         this.history.unshift([this.ip[0], this.ip[1]]);
         if (this.history.length > 80) {
             this.history.pop();
         }
-        console.log('#' + this.runner.threads.indexOf(this) + ' | [' + /*this.code[this.ip[0]][this.ip[1]] +*/ '] | (' + this.ip[0] + ', ' + this.ip[1] + ') | {' + this.direction[0] + ', ' + this.direction[1] + '} | stack ' + this.stack.toString());
+        // console.log('#' + this.runner.threads.indexOf(this) + ' | [' + /*this.code[this.ip[0]][this.ip[1]] +*/ '] | (' + this.ip[0] + ', ' + this.ip[1] + ') | {' + this.direction[0] + ', ' + this.direction[1] + '} | stack ' + this.stack.toString());
         if (this.skip) {
             this.skip = false;
             return;
@@ -168,16 +177,25 @@ class Thread {
                         }
                     } else if (c === ',') {
                         this.runner.write(this.toString(this.stack.pop()) + '\n');
-                    } else if (c === 'p') {
+                    } else if (c === ';') {
                         let e = this.stack.pop();
                         this.runner.write(this.toString(e) + '\n');
                         this.stack.push(e);
                     } else if (c === 'f') {
                         this.runner.threads.push(new Thread([this.ip[0], this.ip[1]], this.code, this.runner));
+                        this.runner.threads[this.runner.threads.length - 1].brandNew = true;
                         this.runner.threads[this.runner.threads.length - 1].direction = [this.direction[0], this.direction[1]];
                         for (let i = 0; i < this.stack.length; i++) {
                             this.runner.threads[this.runner.threads.length - 1].stack.push(this.stack.items[i]);
                         }
+                        this.runner.threads[this.runner.threads.length - 1].registers.q = this.registers.q;
+                        this.runner.threads[this.runner.threads.length - 1].registers.w = this.registers.w;
+                        this.runner.threads[this.runner.threads.length - 1].registers.e = this.registers.e;
+                        this.runner.threads[this.runner.threads.length - 1].registers.r = this.registers.r;
+                        this.runner.threads[this.runner.threads.length - 1].deques.y = this.deques.y.map(x => x);
+                        this.runner.threads[this.runner.threads.length - 1].deques.u = this.deques.u.map(x => x);
+                        this.runner.threads[this.runner.threads.length - 1].deques.i = this.deques.i.map(x => x);
+                        this.runner.threads[this.runner.threads.length - 1].deques.o = this.deques.o.map(x => x);
                         this.stack.push(true);
                         this.runner.threads[this.runner.threads.length - 1].stack.push(false);
                     } else if (c === 'k') {
@@ -260,6 +278,11 @@ class Thread {
                         if (value) {
                             this.skip = true;
                         }
+                    } else if (c === '¬') {
+                      let a = this.stack.pop();
+                      let b = this.stack.pop();
+                      this.stack.push(a);
+                      this.stack.push(b);
                     } else if (c === '!') {
                         this.stack.push(!this.stack.pop());
                     } else if (c === '#') {
@@ -284,6 +307,43 @@ class Thread {
                         let right = this.stack.pop();
                         let left = this.stack.pop();
                         this.stack.push(left >= right);
+                    } else if (c === 'q' || c === 'w' || c === 'e' || c === 'r') {
+                      this.registers[c] = this.stack.pop();
+                    } else if (c === 'Q' || c === 'W' || c === 'E' || c === 'R') {
+                      this.stack.push(this.registers[c.toLowerCase()]);
+                    } else if (c === 'y') {
+                      this.deques.y.push(this.stack.pop());
+                    } else if (c === 'u') {
+                      this.deques.u.push(this.stack.pop());
+                    } else if (c === 'i') {
+                      this.deques.i.push(this.stack.pop());
+                    } else if (c === 'o') {
+                      this.deques.o.push(this.stack.pop());
+                    } else if (c === 'Y') {
+                      this.stack.push(this.deques.y.pop());
+                    } else if (c === 'U') {
+                      this.stack.push(this.deques.u.pop());
+                    } else if (c === 'I') {
+                      this.stack.push(this.deques.i.pop());
+                    } else if (c === 'O') {
+                      this.stack.push(this.deques.o.pop());
+                    } else if (c === 'p') {
+                      this.deques.y.unshift(this.stack.pop());
+                      console.log(this.deques.y);
+                    } else if (c === 'a') {
+                      this.deques.u.unshift(this.stack.pop());
+                    } else if (c === 's') {
+                      this.deques.i.unshift(this.stack.pop());
+                    } else if (c === 'd') {
+                      this.deques.o.unshift(this.stack.pop());
+                    } else if (c === 'P') {
+                      this.stack.push(this.deques.y.shift());
+                    } else if (c === 'A') {
+                      this.stack.push(this.deques.u.shift());
+                    } else if (c === 'S') {
+                      this.stack.push(this.deques.i.shift());
+                    } else if (c === 'D') {
+                      this.stack.push(this.deques.o.shift());
                     }
                 }
             }
@@ -316,7 +376,11 @@ class Runner {
     runStep() {
         for (let i = 0; i < this.threads.length; i++) {
             const thread = this.threads[i];
-            thread.update();
+            if (!thread.brandNew) {
+              thread.update();
+            } else {
+              thread.brandNew = false;
+            }
             if (thread.dead) {
                 this.threads.splice(i, 1);
                 i--;

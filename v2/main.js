@@ -24,6 +24,7 @@ const codePage = {
     '38': ['8', 'Corresponding digit in number literals'],
     '39': ['9', 'Corresponding digit in number literals'],
     '3a': [':', 'Duplicate top of stack'],
+    '3b': [';', 'Like \',\', but without popping'],
     '3c': ['<', 'IP <'],
     '3d': ['=', 'Equals'],
     '3e': ['>', 'IP >'],
@@ -32,7 +33,7 @@ const codePage = {
     '42': ['B', 'undocumented / not yet assigned'],
     '43': ['C', 'undocumented / not yet assigned'],
     '44': ['D', 'undocumented / not yet assigned'],
-    '45': ['E', 'undocumented / not yet assigned'],
+    '45': ['E', 'Push the value of the E register onto the stack'],
     '46': ['F', 'Push false'],
     '47': ['G', 'undocumented / not yet assigned'],
     '48': ['H', 'undocumented / not yet assigned'],
@@ -44,13 +45,13 @@ const codePage = {
     '4e': ['N', 'undocumented / not yet assigned'],
     '4f': ['O', 'undocumented / not yet assigned'],
     '50': ['P', 'undocumented / not yet assigned'],
-    '51': ['Q', 'undocumented / not yet assigned'],
-    '52': ['R', 'undocumented / not yet assigned'],
+    '51': ['Q', 'Push the value of the Q register onto the stack'],
+    '52': ['R', 'Push the value of the R register onto the stack'],
     '53': ['S', 'undocumented / not yet assigned'],
     '54': ['T', 'Push true'],
     '55': ['U', 'undocumented / not yet assigned'],
     '56': ['V', 'undocumented / not yet assigned'],
-    '57': ['W', 'undocumented / not yet assigned'],
+    '57': ['W', 'Push the value of the W register onto the stack'],
     '58': ['X', 'undocumented / not yet assigned'],
     '59': ['Y', 'undocumented / not yet assigned'],
     '5a': ['Z', 'undocumented / not yet assigned'],
@@ -58,37 +59,38 @@ const codePage = {
     '5e': ['^', 'IP ^'],
     '5f': ['_', 'Pop'],
     '60': ['`', 'Start / end string literal'],
-    '61': ['a', 'undocumented / not yet assigned'],
+    '61': ['a', 'Pop a value off the stack and \'unshift\' it at the start of the U deque'],
     '62': ['b', 'undocumented / not yet assigned'],
     '63': ['c', 'undocumented / not yet assigned'],
-    '64': ['d', 'undocumented / not yet assigned'],
-    '65': ['e', 'undocumented / not yet assigned'],
+    '64': ['d', 'Pop a value off the stack and \'unshift\' it at the start of the O deque'],
+    '65': ['e', 'Pop a value off the stack and write it to the E register'],
     '66': ['f', 'Fork - create a new thread. Push true on the parent thread\'s stack and false on the child thread\'s stack'],
     '67': ['g', 'undocumented / not yet assigned'],
     '68': ['h', 'undocumented / not yet assigned'],
-    '69': ['i', 'undocumented / not yet assigned'],
+    '69': ['i', 'Pop a value off the stack and push it onto the I deque'],
     '6a': ['j', 'undocumented / not yet assigned'],
     '6b': ['k', 'Halt the current thread'],
     '6c': ['l', 'undocumented / not yet assigned'],
     '6d': ['m', 'undocumented / not yet assigned'],
     '6e': ['n', 'undocumented / not yet assigned'],
-    '6f': ['o', 'undocumented / not yet assigned'],
-    '70': ['p', 'undocumented / not yet assigned'],
-    '71': ['q', 'undocumented / not yet assigned'],
-    '72': ['r', 'undocumented / not yet assigned'],
-    '73': ['s', 'undocumented / not yet assigned'],
+    '6f': ['o', 'Pop a value off the stack and push it onto the O deque'],
+    '70': ['p', 'Pop a value off the stack and \'unshift\' it at the start of the Y deque'],
+    '71': ['q', 'Pop a value off the stack and write it to the Q register'],
+    '72': ['r', 'Pop a value off the stack and write it to the R register'],
+    '73': ['s', 'Pop a value off the stack and \'unshift\' it at the start of the I deque'],
     '74': ['t', 'undocumented / not yet assigned'],
-    '75': ['u', 'undocumented / not yet assigned'],
+    '75': ['u', 'Pop a value off the stack and push it onto the U deque'],
     '76': ['v', 'IP v'],
-    '77': ['w', 'undocumented / not yet assigned'],
+    '77': ['w', 'Pop a value off the stack and write it to the W register'],
     '78': ['x', 'undocumented / not yet assigned'],
-    '79': ['y', 'undocumented / not yet assigned'],
+    '79': ['y', 'Pop a value off the stack and push it onto the Y deque'],
     '7a': ['z', 'undocumented / not yet assigned'],
     '7c': ['|', 'Mirror - inverse IP direction'],
     'a0': ['«', 'Lesser than'],
     'a1': ['»', 'Greater than'],
     'a2': ['≤', 'Lesser or equal'],
     'a3': ['≥', 'Greater or equal'],
+    'ac': ['¬', 'Swap'],
     'bf': ['¿', 'Unless - execute next unless pop() is truthy'],
 };
 function fillTextWithWordWrap(ctx, text, x, y, lineHeight, maxWidth) {
@@ -351,8 +353,12 @@ function draw() {
             ctx.fillRect(i * 50, canvas.height - 300, 50, 20);
             ctx.fillStyle = 'black';
             ctx.fillText('#' + thread.id, 3 + i * 50, canvas.height - 300 + 3);
+            ctx.fillText('Q ' + thread.registers.q, 3 + i * 50, canvas.height - 280);
+            ctx.fillText('W ' + thread.registers.w, 3 + i * 50, canvas.height - 260);
+            ctx.fillText('E ' + thread.registers.e, 3 + i * 50, canvas.height - 240);
+            ctx.fillText('R ' + thread.registers.r, 3 + i * 50, canvas.height - 220);
             for (let j = thread.stack.items.length - 1, k = 0; j >= 0; j--, k++) {
-                ctx.fillText(`${j} ` + thread.stack.items[j], 3 + i * 50, canvas.height - 300 + (k + 1) * 20);
+                ctx.fillText(`${j} ` + thread.stack.items[j], 3 + i * 50, canvas.height - 200 + (k + 1) * 20);
             }
         }
     }
