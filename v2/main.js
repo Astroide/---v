@@ -317,7 +317,7 @@ function draw() {
     specialFillRect(39 + 18, 3, 18, 18, '#ccc', '#888');
     ctx.fillStyle = 'black';
     ctx.fillText('^', 42 + 18 + 3, 6);
-    ctx.fillText(`<>^v v2 ${running ? 'Running ' : ''}(${cursor[0]}, ${cursor[1]}) ${speed} TPS`, 24 + 18 + 36, 6);
+    ctx.fillText(`<>^v v2 ${running ? 'Running ' : ''}(${cursor[0]}, ${cursor[1]}) ${speed} TPS` + (running ? ` | ${runner.threads.length} threads` : ''), 24 + 18 + 36, 6);
     if (!running) {
         ctx.save();
         applyTranslate();
